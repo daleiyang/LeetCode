@@ -1,0 +1,29 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+const int INF = 100000000;
+int res;
+
+int maxPathSum(struct TreeNode* root){
+    res = -INF;
+    traverse(root);
+    return res;
+}
+
+int traverse(struct TreeNode* node){
+    if(node == NULL) return 0;
+
+    //如果这个节点在在最长路径上，且在路径的最高点，则最大路径和是左右子树加上本节点的值。
+    int left = fmax(0, traverse(node->left));
+    int right = fmax(0, traverse(node->right));
+    res = fmax(res, left + right + node->val);
+
+    //如果这个节点在在最长路径上，且不在路径的最高点，则需要选出左右子树中的最大值，再加上本身节点值，向父节点返回
+    return fmax(left, right) + node->val;
+}
