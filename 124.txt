@@ -17,6 +17,7 @@ int maxPathSum(struct TreeNode* root){
 }
 
 int traverse(struct TreeNode* node){
+    //在递归的出口处，这里返回值 0，也满足函数返回值的含义。
     if(node == NULL) return 0;
 
     //包括这个节点的最长路径，且此节点在这条最长路径的最高处，则这条最大路径和是左右子树加上本节点的值。
