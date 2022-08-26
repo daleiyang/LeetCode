@@ -1,0 +1,40 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+private:
+    TreeNode *x, *y, *pre;
+    void inOrder(TreeNode* node){
+        if(!node) return;
+        inOrder(node->left);
+
+        //BST树中序遍历是升序，依题意，两个节点调换，必然出现一组（只有两个节点的树）或者两组相邻中序遍历节点顺序是降序。所以依题意，选择第一组顺序错误节点的第一个节点 和 第二组顺序错误节点的第二个节点 来调换顺序。
+        if(pre && (node->val < pre->val)){
+            if(!x) x = pre;
+            y = node;
+        }
+        pre = node;
+
+        inOrder(node->right);
+    }
+public:
+    void recoverTree(TreeNode* root) {
+        x = NULL;
+        y = NULL;
+        pre = NULL;
+
+        inOrder(root);
+
+        int t = x->val;
+        x->val = y->val;
+        y->val = t;
+    }
+};

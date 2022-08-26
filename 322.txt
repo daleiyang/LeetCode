@@ -1,0 +1,20 @@
+class Solution {
+private:
+    int INF = 1e8;
+    int minv[10050];
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        minv[0] = 0;
+        for(int i = 1; i <= amount; i++) minv[i] = INF;
+
+        for(int i = 1; i <= amount; i++){
+            for(int j = 0; j < coins.size(); j++){
+                if(i >= coins[j]){
+                    minv[i] = fmin(minv[i], minv[i - coins[j]] + 1);
+                }
+            }
+        }
+        if(minv[amount] == INF) return -1;
+        else return minv[amount];
+    }
+};
