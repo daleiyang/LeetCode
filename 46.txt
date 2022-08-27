@@ -1,0 +1,33 @@
+class Solution {
+private:
+    vector<vector<int> > res;
+    int a[256];
+    void build(vector<int>& nums, int* a, int idx){
+        if(nums.size() == idx){
+            vector<int>* v = new vector<int>();
+            for(int i = 0; i < idx; i++) v->push_back(a[i]);
+            res.push_back(*v);
+        }
+        else{
+            for(int i = 0; i < nums.size(); i++){
+                bool ok = true;
+                for(int j = 0; j < idx; j++){
+                    if(nums[i] == a[j]){
+                        ok = false;
+                        break;
+                    }
+                }
+                if(ok){
+                    a[idx] = nums[i];
+                    build(nums, a, idx+1);
+                }
+            }
+        }
+    }
+public:
+    vector<vector<int> > permute(vector<int>& nums) {
+        memset(a, 0, sizeof(a));
+        build(nums, a, 0);
+        return res;
+    }
+};
