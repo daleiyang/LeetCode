@@ -1,0 +1,40 @@
+class Solution {
+private:
+    vector<vector<string>> res;
+    int C[10];
+    void search(int n, int idx){
+        if(n == idx){
+            vector<string>* v = new vector<string>(); 
+            for(int i = 0; i < n; i++){
+                string s;
+                for(int j = 0; j < n; j++){
+                    if(C[i] == j) s.push_back('Q');
+                    else s.push_back('.');
+                }
+                v->push_back(s);
+            }
+            res.push_back(*v);
+        }
+        else{
+            for(int i = 0; i < n; i++){
+                bool ok = true;
+                for(int j = 0; j < idx; j++){
+                    if( (i == C[j]) || (j - C[j] == idx - i) || (j + C[j] == idx + i)){
+                        ok = false;
+                        break;
+                    }
+                }
+                if(ok){
+                    C[idx] = i;
+                    search(n, idx + 1);
+                }
+            }
+        }
+    }
+public:
+    vector<vector<string>> solveNQueens(int n){
+        memset(C, 0, sizeof(C));
+        search(n, 0);
+        return res;
+    }
+};
